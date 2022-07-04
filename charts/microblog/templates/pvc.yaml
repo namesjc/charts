@@ -1,0 +1,22 @@
+{{- if and .Values.main.persistence.enabled (not .Values.main.persistence.existingClaim) -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "microblog.fullname" . }}-microblog
+  labels:
+    {{- include "microblog.labels" . | nindent 4 }}
+  {{- if .Values.main.persistence.annotations }}
+  annotations:
+  {{ toYaml .Values.pmain.ersistence.annotations | indent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.main.persistence.hostPath }}
+  storageClassName: {{ include "microblog.fullname" . }}-microblog
+  {{- end }}
+  accessModes:
+    - {{ .Values.main.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.main.persistence.size | quote }}
+  {{- include "microblog.storageClass" . | nindent 2 }}
+{{- end -}}

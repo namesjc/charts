@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "microblog.fullname" . }}
+  labels:
+    {{- include "microblog.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.main.replicaCount }}
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      {{- include "microblog.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "microblog.selectorLabels" . | nindent 8 }}
+      {{- with .Values.main.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with .Values.main.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.main.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.main.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.main.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.main.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.main.securityContext | nindent 12 }}
+          image: "{{ .Values.main.image.repository }}:{{ .Values.main.image.tag | default "latest" }}"
+          imagePullPolicy: {{ .Values.main.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          {{- if .Values.main.healthcheck.enabled }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          {{- end  }}
+          env:
+            - name: PROMETHEUS_AUTH
+              value: {{ .Values.main.prometheus.auth . }}
+            - name: DATABASE_URL
+              value: {{ include "microblog.databaseHost" . | quote }}
+            - name: DATABASE_PORT
+              value: {{ include "microblog.databasePort" . | quote }}
+            - name: DATABASE_NAME
+              value: {{ include "microblog.databaseName" . | quote }}
+            - name: DATABASE_USER
+              value: {{ include "microblog.databaseUser" . | quote }}
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "microblog.databaseSecretName" . }}
+                  key: {{ include "microblog.databasePasswordKey" . | quote }}
+            - name: REDIS_URL
+              value: {{ include "microblog.redisHost" . | quote }}
+            - name: REDIS_PORT
+              value: {{ include "microblog.redisPort" . | quote }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "microblog.redisSecretName" . }}
+                  key: {{ include "microblog.redisPasswordKey" . | quote }}
+            - name: ELASTICSEARCH_URL
+              value: {{ include "microblog.elasticsearchHost" . | quote }}
+            - name: ELASTICSEARCH_PORT
+              value: {{ include "microblog.elasticsearchPort" . | quote }}
+            {{- if .Values.smtp.smtpHost }}
+            - name: SMTP_HOST
+              value: {{ .Values.smtp.smtpHost | quote }}
+            {{- end }}
+            {{- if .Values.smtp.smtpPort }}
+            - name: SMTP_PORT
+              value: {{ .Values.smtp.smtpPort | quote }}
+            {{- end }}
+            {{- if .Values.smtp.smtpUser }}
+            - name: SMTP_USER
+              value: {{ .Values.smtp.smtpUser | quote }}
+            {{- end }}
+            {{- if .Values.smtp.smtpPassword }}
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "microblog.fullname" . }}
+                  key: smtp-password
+            {{- end }}
+            {{- if .Values.smtp.mailUsername }}
+            - name: MAIL_USERNAME
+              value: {{ .Values.smtp.mailUsername | quote }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.smtp.resources | nindent 12 }}
+

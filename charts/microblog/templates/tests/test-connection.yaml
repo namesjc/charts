@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "microblog.fullname" . }}-test-connection"
+  labels:
+    {{- include "microblog.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "microblog.fullname" . }}:{{ .Values.main.service.port }}']
+  restartPolicy: Never

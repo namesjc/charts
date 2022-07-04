@@ -1,0 +1,29 @@
+{{- if and .Values.main.prometheus.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+
+metadata:
+  name: {{ template "microblog.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "microblog.labels" . | nindent 4 }}
+    {{- range $key, $val := .Values.main.prometheus.serviceMonitorAdditionalLabels }}
+    {{ $key }}: {{ $val | quote }}
+    {{- end}}
+
+spec:
+  endpoints:
+  - interval: {{ .Values.main.prometheus.scrapeInterval }}
+    port: http
+    path: {{ .Values.controller.prometheus.scrapeEndpoint }}
+  {{- if .Values.main.prometheus.metricRelabelings }}
+    metricRelabelings: {{ .Values.main.prometheus.metricRelabelings }}
+  {{- end  }}
+  jobLabel: {{ template "microblog.fullname" . }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- include "microblog.selectorLabels" . | nindent 6 }}
+{{- end }}
