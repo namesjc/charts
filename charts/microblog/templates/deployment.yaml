@@ -60,7 +60,7 @@ spec:
           {{- end  }}
           env:
             - name: PROMETHEUS_AUTH
-              value: {{ .Values.main.prometheus.auth . }}
+              value: {{ .Values.main.prometheus.auth }}
             - name: DATABASE_URL
               value: {{ include "microblog.databaseHost" . | quote }}
             - name: DATABASE_PORT
