@@ -60,9 +60,9 @@ spec:
           {{- end  }}
           env:
             - name: METRICS_ENABLED
-              value: {{ ternary "true" "false" .Values.main.metrics.enabled | quote }}
+              value: {{ title .Values.main.metrics.enabled | quote }}
             - name: METRICS_AUTH_ENABLED
-              value: {{ ternary "true" "false" .Values.main.metrics.auth | quote }}
+              value: {{ title .Values.main.metrics.auth | quote }}
             - name: DATABASE_HOST
               value: {{ include "microblog.databaseHost" . | quote }}
             - name: DATABASE_PORT
