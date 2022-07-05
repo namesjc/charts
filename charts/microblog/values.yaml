@@ -110,27 +110,31 @@ main:
     labels: {}
 
   # Expose Prometheus metrics
-  prometheus:
+  metrics:
     # If enabled, add the prometheus plugin to the list of plugins to install
     # https://plugins.jenkins.io/prometheus
     enabled: false
     # enable basic authentication
     auth: false
-    # Additional labels to add to the ServiceMonitor object
-    serviceMonitorAdditionalLabels: {}
-    # Set a custom namespace where to deploy ServiceMonitor resource
-    # serviceMonitorNamespace: monitoring
-    scrapeInterval: 60s
-    # This is the default endpoint used by the prometheus plugin
-    scrapeEndpoint: /metrics
-    # Additional labels to add to the PrometheusRule object
-    alertingRulesAdditionalLabels: {}
-    # An array of prometheus alerting rules
-    # See here: https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
-    # The `groups` root object is added by default, simply add the rule entries
-    alertingrules: []
-    # Set a custom namespace where to deploy PrometheusRule resource
-    prometheusRuleNamespace: ""
+    serviceMonitor:
+      enable: false
+      # Additional labels to add to the ServiceMonitor object
+      serviceMonitorAdditionalLabels: {}
+      # Set a custom namespace where to deploy ServiceMonitor resource
+      serviceMonitorNamespace: ""
+      scrapeInterval: 60s
+      # This is the default endpoint used by the prometheus plugin
+      scrapeEndpoint: /metrics
+    prometheusRule:
+      enabled: false
+      # Additional labels to add to the PrometheusRule object
+      alertingRulesAdditionalLabels: {}
+      # An array of prometheus alerting rules
+      # See here: https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
+      # The `groups` root object is added by default, simply add the rule entries
+      alertingrules: []
+      # Set a custom namespace where to deploy PrometheusRule resource
+      prometheusRuleNamespace: ""
 
 ## @param commonAnnotations Common annotations to add to all Microblog resources (sub-charts are not considered). Evaluated as a template
 ##

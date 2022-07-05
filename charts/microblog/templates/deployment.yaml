@@ -59,9 +59,11 @@ spec:
               port: http
           {{- end  }}
           env:
-            - name: PROMETHEUS_AUTH
-              value: {{ .Values.main.prometheus.auth | quote }}
-            - name: DATABASE_URL
+            - name: METRICS_ENABLED
+              value: "{{ .Values.main.metrics.enabled }}"
+            - name: METRICS_AUTH_ENABLED
+              value: "{{ .Values.main.metrics.auth }}"
+            - name: DATABASE_HOST
               value: {{ include "microblog.databaseHost" . | quote }}
             - name: DATABASE_PORT
               value: {{ include "microblog.databasePort" . | quote }}
@@ -74,7 +76,7 @@ spec:
                 secretKeyRef:
                   name: {{ include "microblog.databaseSecretName" . }}
                   key: {{ include "microblog.databasePasswordKey" . | quote }}
-            - name: REDIS_URL
+            - name: REDIS_HOST
               value: {{ include "microblog.redisHost" . | quote }}
             - name: REDIS_PORT
               value: {{ include "microblog.redisPort" . | quote }}
@@ -83,7 +85,7 @@ spec:
                 secretKeyRef:
                   name: {{ include "microblog.redisSecretName" . }}
                   key: {{ include "microblog.redisPasswordKey" . | quote }}
-            - name: ELASTICSEARCH_URL
+            - name: ELASTICSEARCH_HOST
               value: {{ include "microblog.elasticsearchHost" . | quote }}
             - name: ELASTICSEARCH_PORT
               value: {{ include "microblog.elasticsearchPort" . | quote }}
