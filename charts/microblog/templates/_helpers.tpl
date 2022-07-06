@@ -214,9 +214,6 @@ Return the Redis Password Key
 {{- end -}}
 {{- end -}}
 
-{{- define "microblog.elasticsearch.fullname" -}}
-{{- printf "%s-%s-coordinating-only" .Release.Name "elasticsearch" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
 
 {{/*
 Returns true if at least one master-elegible node replica has been configured.
@@ -257,6 +254,7 @@ Returns true if at least one ingest-only node replica has been configured.
 {{/*
 Return the Elasticsearch Hostname
 */}}
+{{/*
 {{- define "microblog.elasticsearchHost" -}}
 {{- $clusterDomain := .Values.elasticsearch.clusterDomain }}
 {{- $releaseNamespace := include "common.names.namespace" . }}
@@ -277,6 +275,7 @@ Return the Elasticsearch Hostname
 {{- $ingestFullname }}.{{ $releaseNamespace }}.svc.{{ $clusterDomain }},
 {{- end -}}
 {{- end -}}
+*/}}
 
 {{/*
 Return the Elasticsearch Port
