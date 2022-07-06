@@ -293,6 +293,12 @@ elasticsearch:
   ##
   master:
     replicaCount: 1
+    autoscaling:
+      enabled: false
+      minReplicas: 3
+      maxReplicas: 11
+      targetCPU: ""
+      targetMemory: ""
     persistence:
         enabled: true
         storageClass: ""
@@ -301,13 +307,31 @@ elasticsearch:
   ##
   coordinating:
     replicaCount: 1
+    autoscaling:
+      enabled: false
+      minReplicas: 3
+      maxReplicas: 11
+      targetCPU: ""
+      targetMemory: ""
   ## Elasticsearch data node parameters
   ## @param elasticsearch.data.replicas Desired number of Elasticsearch data nodes
   ##
   ingest:
     replicaCount: 1
+    autoscaling:
+      enabled: false
+      minReplicas: 3
+      maxReplicas: 11
+      targetCPU: ""
+      targetMemory: ""
   data:
     replicaCount: 1
+    autoscaling:
+      enabled: false
+      minReplicas: 3
+      maxReplicas: 11
+      targetCPU: ""
+      targetMemory: ""
     data:
       persistence:
         enabled: true
