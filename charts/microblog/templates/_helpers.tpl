@@ -219,7 +219,7 @@ Return the Redis Password Key
 {{- end }}
 
 {{/*
-Return the Redis Hostname
+Return the Elasticsearch Hostname
 */}}
 {{- define "microblog.elasticsearchHost" -}}
 {{- if .Values.elasticsearch.enabled }}
