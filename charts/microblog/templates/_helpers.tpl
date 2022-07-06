@@ -216,6 +216,66 @@ Return the Redis Password Key
 
 
 {{/*
+Returns true if at least one master-elegible node replica has been configured.
+*/}}
+{{- define "micorblog.elasticsearch.master.enabled" -}}
+{{- if or .Values.elasticsearch.master.autoscaling.enabled (gt (int .Values.elasticsearch.master.replicaCount) 0) -}}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Returns true if at least one coordinating-only node replica has been configured.
+*/}}
+{{- define "micorblog.elasticsearch.coordinating.enabled" -}}
+{{- if or .Values.elasticsearch.coordinating.autoscaling.enabled (gt (int .Values.elasticsearch.coordinating.replicaCount) 0) -}}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Returns true if at least one data-only node replica has been configured.
+*/}}
+{{- define "micorblog.elasticsearch.data.enabled" -}}
+{{- if or .Values.elasticsearch.data.autoscaling.enabled (gt (int .Values.elasticsearch.data.replicaCount) 0) -}}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Returns true if at least one ingest-only node replica has been configured.
+*/}}
+{{- define "micorblog.elasticsearch.ingest.enabled" -}}
+{{- if or .Values.elasticsearch.ingest.autoscaling.enabled (gt (int .Values.elasticsearch.ingest.replicaCount) 0) -}}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the Elasticsearch Hostname
+*/}}
+{{- define "microblog.elasticsearchHost" -}}
+{{- $clusterDomain := .Values.elasticsearch.clusterDomain }}
+{{- $releaseNamespace := include "common.names.namespace" . }}
+{{- if (include "micorblog.elasticsearch.master.enabled" .) -}}
+{{- $masterFullname := (printf "%s-hl" (include "elasticsearch.master.fullname" .) | trunc 63 | trimSuffix "-") }}
+{{- $masterFullname }}.{{ $releaseNamespace }}.svc.{{ $clusterDomain }},
+{{- end -}}
+{{- if (include "micorblog.elasticsearch.coordinating.enabled" .) -}}
+{{- $coordinatingFullname := (printf "%s-hl" (include "elasticsearch.coordinating.fullname" .) | trunc 63 | trimSuffix "-") }}
+{{- $coordinatingFullname }}.{{ $releaseNamespace }}.svc.{{ $clusterDomain }},
+{{- end -}}
+{{- if (include "micorblog.elasticsearch.data.enabled" .) -}}
+{{- $dataFullname := (printf "%s-hl" (include "elasticsearch.data.fullname" .) | trunc 63 | trimSuffix "-") }}
+{{- $dataFullname }}.{{ $releaseNamespace }}.svc.{{ $clusterDomain }},
+{{- end -}}
+{{- if (include "micorblog.elasticsearch.ingest.enabled" .) -}}
+{{- $ingestFullname := (printf "%s-hl" (include "elasticsearch.ingest.fullname" .) | trunc 63 | trimSuffix "-") }}
+{{- $ingestFullname }}.{{ $releaseNamespace }}.svc.{{ $clusterDomain }},
+{{- end -}}
+{{- end -}}
+
+{{/*
 Return the Elasticsearch Port
 */}}
 {{- define "microblog.elasticsearchPort" -}}
