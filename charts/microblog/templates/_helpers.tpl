@@ -223,7 +223,7 @@ Return the Redis Hostname
 */}}
 {{- define "microblog.elasticsearchHost" -}}
 {{- if .Values.elasticsearch.enabled }}
-    {{ include "microblog.elasticsearch.fullname" . }}
+    {{- printf "%s" (include "microblog.elasticsearch.fullname" .) -}}
 {{- else }}
     {{- printf "%s" .Values.externalElasticsearch.host -}}
 {{- end -}}
