@@ -86,7 +86,7 @@ spec:
                   name: {{ include "microblog.redisSecretName" . }}
                   key: {{ include "microblog.redisPasswordKey" . | quote }}
             - name: ELASTICSEARCH_HOST
-              value: {{ include "microblog.elasticsearchHost" . | quote }}
+              value: {{ include "elasticsearch.hosts" . | quote }}
             - name: ELASTICSEARCH_PORT
               value: {{ include "microblog.elasticsearchPort" . | quote }}
             {{- if .Values.smtp.smtpHost }}

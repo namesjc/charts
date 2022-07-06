@@ -216,66 +216,6 @@ Return the Redis Password Key
 
 
 {{/*
-Returns true if at least one master-elegible node replica has been configured.
-*/}}
-{{- define "elasticsearch.master.enabled" -}}
-{{- if or .Values.elasticsearch.master.autoscaling.enabled (gt (int .Values.master.replicaCount) 0) -}}
-    {{- true -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Returns true if at least one coordinating-only node replica has been configured.
-*/}}
-{{- define "elasticsearch.coordinating.enabled" -}}
-{{- if or .Values.elasticsearch.coordinating.autoscaling.enabled (gt (int .Values.coordinating.replicaCount) 0) -}}
-    {{- true -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Returns true if at least one data-only node replica has been configured.
-*/}}
-{{- define "elasticsearch.data.enabled" -}}
-{{- if or .Values.elasticsearch.data.autoscaling.enabled (gt (int .Values.data.replicaCount) 0) -}}
-    {{- true -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Returns true if at least one ingest-only node replica has been configured.
-*/}}
-{{- define "elasticsearch.ingest.enabled" -}}
-{{- if or .Values.elasticsearch.ingest.autoscaling.enabled (gt (int .Values.ingest.replicaCount) 0) -}}
-    {{- true -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Return the Elasticsearch Hostname
-*/}}
-{{- define "microblog.elasticsearchHost" -}}
-{{- $clusterDomain := .Values.elasticsearch.clusterDomain }}
-{{- $releaseNamespace := include "common.names.namespace" . }}
-{{- if (include "elasticsearch.master.enabled" .) -}}
-{{- $masterFullname := (printf "%s-hl" (include "elasticsearch.master.fullname" .) | trunc 63 | trimSuffix "-") }}
-{{- $masterFullname }}.{{ $releaseNamespace }}.svc.{{ $clusterDomain }},
-{{- end -}}
-{{- if (include "elasticsearch.coordinating.enabled" .) -}}
-{{- $coordinatingFullname := (printf "%s-hl" (include "elasticsearch.coordinating.fullname" .) | trunc 63 | trimSuffix "-") }}
-{{- $coordinatingFullname }}.{{ $releaseNamespace }}.svc.{{ $clusterDomain }},
-{{- end -}}
-{{- if (include "elasticsearch.data.enabled" .) -}}
-{{- $dataFullname := (printf "%s-hl" (include "elasticsearch.data.fullname" .) | trunc 63 | trimSuffix "-") }}
-{{- $dataFullname }}.{{ $releaseNamespace }}.svc.{{ $clusterDomain }},
-{{- end -}}
-{{- if (include "elasticsearch.ingest.enabled" .) -}}
-{{- $ingestFullname := (printf "%s-hl" (include "elasticsearch.ingest.fullname" .) | trunc 63 | trimSuffix "-") }}
-{{- $ingestFullname }}.{{ $releaseNamespace }}.svc.{{ $clusterDomain }},
-{{- end -}}
-{{- end -}}
-
-{{/*
 Return the Elasticsearch Port
 */}}
 {{- define "microblog.elasticsearchPort" -}}
