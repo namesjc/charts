@@ -216,42 +216,6 @@ Return the Redis Password Key
 
 
 {{/*
-Returns true if at least one master-elegible node replica has been configured.
-*/}}
-{{- define "elasticsearch.master.enabled" -}}
-{{- if or .Values.elasticsearch.master.autoscaling.enabled (gt (int .Values.master.replicaCount) 0) -}}
-    {{- true -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Returns true if at least one coordinating-only node replica has been configured.
-*/}}
-{{- define "elasticsearch.coordinating.enabled" -}}
-{{- if or .Values.elasticsearch.coordinating.autoscaling.enabled (gt (int .Values.coordinating.replicaCount) 0) -}}
-    {{- true -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Returns true if at least one data-only node replica has been configured.
-*/}}
-{{- define "elasticsearch.data.enabled" -}}
-{{- if or .Values.elasticsearch.data.autoscaling.enabled (gt (int .Values.data.replicaCount) 0) -}}
-    {{- true -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Returns true if at least one ingest-only node replica has been configured.
-*/}}
-{{- define "elasticsearch.ingest.enabled" -}}
-{{- if or .Values.elasticsearch.ingest.autoscaling.enabled (gt (int .Values.ingest.replicaCount) 0) -}}
-    {{- true -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
 Return the Elasticsearch Hostname
 */}}
 {{/*
