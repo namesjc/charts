@@ -292,7 +292,7 @@ elasticsearch:
   ## @param elasticsearch.master.replicas Desired number of Elasticsearch master-eligible nodes
   ##
   master:
-    replicas: 1
+    replicaCount: 1
     persistence:
         enabled: true
         storageClass: ""
@@ -300,12 +300,14 @@ elasticsearch:
   ## @param elasticsearch.coordinating.replicas Desired number of Elasticsearch coordinating-only nodes
   ##
   coordinating:
-    replicas: 1
+    replicaCount: 1
   ## Elasticsearch data node parameters
   ## @param elasticsearch.data.replicas Desired number of Elasticsearch data nodes
   ##
+  ingest:
+    replicaCount: 1
   data:
-    replicas: 1
+    replicaCount: 1
     data:
       persistence:
         enabled: true
