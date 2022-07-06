@@ -259,6 +259,8 @@ redis:
     usePasswordFiles: false
   master:
     count: 1
+    service:
+      port: 6379
     persistence:
       enabled: true
       storageClass: ""
@@ -269,6 +271,8 @@ redis:
       storageClass: ""
   sentinel:
     enabled: false
+    service:
+      sentinelPort: 6379
   cluster:
     enabled: false
   metrics:

@@ -231,7 +231,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 Create a default fully qualified coordinating name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "microbog.elasticsearch.coordinating.fullname" -}}
+{{- define "microblog.elasticsearch.coordinating.fullname" -}}
 {{- $name := default "coordinating" .Values.elasticsearch.coordinating.nameOverride -}}
 {{- if .Values.elasticsearch.coordinating.fullnameOverride -}}
 {{- .Values.elasticsearch.coordinating.fullnameOverride | trunc 63 | trimSuffix "-" -}}
