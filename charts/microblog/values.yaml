@@ -293,6 +293,8 @@ elasticsearch:
   ##
   master:
     replicaCount: 1
+    nameOverride: ""
+    fullnameOverride: ""
     autoscaling:
       enabled: false
       minReplicas: 3
@@ -307,6 +309,8 @@ elasticsearch:
   ##
   coordinating:
     replicaCount: 1
+    nameOverride: ""
+    fullnameOverride: ""
     autoscaling:
       enabled: false
       minReplicas: 3
@@ -318,6 +322,8 @@ elasticsearch:
   ##
   ingest:
     replicaCount: 1
+    nameOverride: ""
+    fullnameOverride: ""
     autoscaling:
       enabled: false
       minReplicas: 3
@@ -326,13 +332,14 @@ elasticsearch:
       targetMemory: ""
   data:
     replicaCount: 1
+    nameOverride: ""
+    fullnameOverride: ""
     autoscaling:
       enabled: false
       minReplicas: 3
       maxReplicas: 11
       targetCPU: ""
       targetMemory: ""
-    data:
       persistence:
         enabled: true
         storageClass: ""

@@ -214,6 +214,57 @@ Return the Redis Password Key
 {{- end -}}
 {{- end -}}
 
+{{/*
+Create a default fully qualified master name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "microblog.elasticsearch.master.fullname" -}}
+{{- $name := default "master" .Values.elasticsearch.master.nameOverride -}}
+{{- if .Values.elasticsearch.master.fullnameOverride -}}
+{{- .Values.elasticsearch.master.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s" (include "common.names.fullname" .) $name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create a default fully qualified coordinating name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "microbog.elasticsearch.coordinating.fullname" -}}
+{{- $name := default "coordinating" .Values.elasticsearch.coordinating.nameOverride -}}
+{{- if .Values.elasticsearch.coordinating.fullnameOverride -}}
+{{- .Values.elasticsearch.coordinating.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s" (include "common.names.fullname" .) $name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create a default fully qualified data name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "microblog.elasticsearch.data.fullname" -}}
+{{- $name := default "data" .Values.elasticsearch.data.nameOverride -}}
+{{- if .Values.elasticsearch.data.fullnameOverride -}}
+{{- .Values.elasticsearch.data.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s" (include "common.names.fullname" .) $name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create a default fully qualified ingest name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "microblog.elasticsearch.ingest.fullname" -}}
+{{- $name := default "ingest" .Values.elasticsearch.ingest.nameOverride -}}
+{{- if .Values.elasticsearch.ingest.fullnameOverride -}}
+{{- .Values.elasticsearch.ingest.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s" (include "common.names.fullname" .) $name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
 
 {{/*
 Returns true if at least one master-elegible node replica has been configured.
@@ -258,19 +309,19 @@ Return the Elasticsearch Hostname
 {{- $clusterDomain := .Values.elasticsearch.clusterDomain }}
 {{- $releaseNamespace := include "common.names.namespace" . }}
 {{- if (include "micorblog.elasticsearch.master.enabled" .) -}}
-{{- $masterFullname := (printf "%s-hl" (include "elasticsearch.master.fullname" .) | trunc 63 | trimSuffix "-") }}
+{{- $masterFullname := (printf "%s-hl" (include "microblog.elasticsearch.master.fullname" .) | trunc 63 | trimSuffix "-") }}
 {{- $masterFullname }}.{{ $releaseNamespace }}.svc.{{ $clusterDomain }},
 {{- end -}}
 {{- if (include "micorblog.elasticsearch.coordinating.enabled" .) -}}
-{{- $coordinatingFullname := (printf "%s-hl" (include "elasticsearch.coordinating.fullname" .) | trunc 63 | trimSuffix "-") }}
+{{- $coordinatingFullname := (printf "%s-hl" (include "microblog.elasticsearch.coordinating.fullname" .) | trunc 63 | trimSuffix "-") }}
 {{- $coordinatingFullname }}.{{ $releaseNamespace }}.svc.{{ $clusterDomain }},
 {{- end -}}
 {{- if (include "micorblog.elasticsearch.data.enabled" .) -}}
-{{- $dataFullname := (printf "%s-hl" (include "elasticsearch.data.fullname" .) | trunc 63 | trimSuffix "-") }}
+{{- $dataFullname := (printf "%s-hl" (include "microblog.elasticsearch.data.fullname" .) | trunc 63 | trimSuffix "-") }}
 {{- $dataFullname }}.{{ $releaseNamespace }}.svc.{{ $clusterDomain }},
 {{- end -}}
 {{- if (include "micorblog.elasticsearch.ingest.enabled" .) -}}
-{{- $ingestFullname := (printf "%s-hl" (include "elasticsearch.ingest.fullname" .) | trunc 63 | trimSuffix "-") }}
+{{- $ingestFullname := (printf "%s-hl" (include "microblog.elasticsearch.ingest.fullname" .) | trunc 63 | trimSuffix "-") }}
 {{- $ingestFullname }}.{{ $releaseNamespace }}.svc.{{ $clusterDomain }},
 {{- end -}}
 {{- end -}}
