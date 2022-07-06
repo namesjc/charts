@@ -3,6 +3,35 @@ entries:
   microblog:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-07-06T02:56:10.434090293Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.x.x
+    - condition: mariadb.enabled
+      name: mariadb
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.x.x
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A Helm chart for microblog with mariadb, redis and elasticsearch
+      intergrated.
+    digest: 08d39a126712a2daebd9ffc5da5b9270a5c5ea12bd58288ca193e9e5e41b28c5
+    name: microblog
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/microblog-0.1.6/microblog-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-07-06T00:33:18.448682711Z"
     dependencies:
     - condition: redis.enabled
@@ -59,4 +88,4 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/microblog-0.1.4/microblog-0.1.4.tgz
     version: 0.1.4
-generated: "2022-07-06T00:33:18.448697911Z"
+generated: "2022-07-06T02:56:10.434108393Z"
