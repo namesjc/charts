@@ -9,7 +9,7 @@ spec:
   - name: success-rate
     interval: 10s
     successCondition: result[0] > 0.90
-    failureConditaion: result[0] < 0.90
+    failureCondition: result[0] < 0.90
     failureLimit: 0
     provider:
       prometheus:
