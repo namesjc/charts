@@ -88,4 +88,15 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/microblog-0.1.4/microblog-0.1.4.tgz
     version: 0.1.4
-generated: "2022-07-06T02:56:10.434108393Z"
+  rollouts:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-08T06:43:37.697055611Z"
+    description: A Helm chart for testing argo rollouts
+    digest: 76fe9341980343976bbda11ea078de65e8e3e99a9aa60e6389708201f3712784
+    name: rollouts
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/rollouts-0.1.0/rollouts-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-07-08T06:43:37.697064311Z"
