@@ -53,7 +53,8 @@ spec:
   strategy:
     canary:
       analysis:
-        templateName: {{ include "rollouts.fullname" . }}
+        templates:
+        - templateName: {{ include "rollouts.fullname" . }}
         startingStep: 2
         args:
         - name: ingress
