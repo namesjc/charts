@@ -4,6 +4,7 @@ metadata:
   name: {{ include "rollouts.fullname" . }}
   labels:
     {{- include "rollouts.labels" . | nindent 4 }}
+spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 2
   selector:
