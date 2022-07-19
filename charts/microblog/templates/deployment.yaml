@@ -113,5 +113,5 @@ spec:
               value: {{ .Values.smtp.mailUsername | quote }}
             {{- end }}
           resources:
-            {{- toYaml .Values.smtp.resources | nindent 12 }}
+            {{- toYaml .Values.main.resources | nindent 12 }}
 
