@@ -1,5 +1,16 @@
 apiVersion: v1
 entries:
+  cloudflared:
+  - apiVersion: v2
+    appVersion: 2022.1.3
+    created: "2022-07-29T01:38:45.176797541Z"
+    description: Helm chart to deploy Cloudflare Tunnel
+    digest: d1d9fa93aaa65f965f37bd03eb1b1ef65bae17b0c03cd6b8b333564c2e935d66
+    name: cloudflared
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/cloudflared-0.1.0/cloudflared-0.1.0.tgz
+    version: 0.1.0
   microblog:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -99,4 +110,4 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/rollouts-0.1.0/rollouts-0.1.0.tgz
     version: 0.1.0
-generated: "2022-07-08T06:43:37.697064311Z"
+generated: "2022-07-29T01:38:45.46728652Z"
