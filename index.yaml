@@ -11,6 +11,97 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/cloudflared-0.1.0/cloudflared-0.1.0.tgz
     version: 0.1.0
+  eck-agent:
+  - apiVersion: v2
+    created: "2022-11-07T06:39:54.452892289Z"
+    description: A Helm chart to deploy Elastic Agent managed by the ECK Operator.
+    digest: 3ca036f143626a94f788ed2e0c623c533a6ff47bfb148e9b024dd1e1db7f0ba6
+    icon: https://images.contentstack.io/v3/assets/bltefdd0b53724fa2ce/blt77c2da6e0198746e/620ac24e6662ca0a6f617114/icon-agent-32-color.svg
+    kubeVersion: '>= 1.21.0-0'
+    name: eck-agent
+    sources:
+    - https://github.com/elastic/cloud-on-k8s
+    - https://github.com/elastic/elastic-agent
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/eck-agent-0.1.0/eck-agent-0.1.0.tgz
+    version: 0.1.0
+  eck-elasticsearch:
+  - apiVersion: v2
+    created: "2022-11-07T06:39:54.627568761Z"
+    description: A Helm chart to deploy Elasticsearch managed by the ECK Operator.
+    digest: 1bffe6d6f60f81ddeb84be0d5b3a9cdd5410b44717176ac749e0b22802f5487d
+    icon: https://helm.elastic.co/icons/elasticsearch.png
+    kubeVersion: '>= 1.21.0-0'
+    name: eck-elasticsearch
+    sources:
+    - https://github.com/elastic/cloud-on-k8s
+    - https://github.com/elastic/elasticsearch/
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/eck-elasticsearch-0.1.1/eck-elasticsearch-0.1.1.tgz
+    version: 0.1.1
+  eck-fleet-server:
+  - apiVersion: v2
+    created: "2022-11-07T06:39:54.77058344Z"
+    description: A Helm chart to deploy Elastic Fleet Server as an Agent managed by
+      the ECK Operator.
+    digest: 2eff771556c62940004605472f4b2c260d613688efe38b74a5329c16cf359cc2
+    kubeVersion: '>= 1.21.0-0'
+    name: eck-fleet-server
+    sources:
+    - https://github.com/elastic/cloud-on-k8s
+    - https://github.com/elastic/elastic-agent
+    - https://github.com/elastic/fleet-server
+    - https://www.elastic.co/guide/en/fleet/current/fleet-overview.html
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/eck-fleet-server-0.1.0/eck-fleet-server-0.1.0.tgz
+    version: 0.1.0
+  eck-kibana:
+  - apiVersion: v2
+    created: "2022-11-07T06:39:54.926300157Z"
+    description: A Helm chart to deploy Kibana managed by the ECK Operator.
+    digest: 3e8a661e7b2b3386b937125fe14a9e82aaf01e443c42e6f308723471173277b7
+    icon: https://helm.elastic.co/icons/kibana.png
+    kubeVersion: '>= 1.21.0-0'
+    name: eck-kibana
+    sources:
+    - https://github.com/elastic/cloud-on-k8s
+    - https://github.com/elastic/kibana
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/eck-kibana-0.1.1/eck-kibana-0.1.1.tgz
+    version: 0.1.1
+  eck-stack:
+  - apiVersion: v2
+    created: "2022-11-07T06:39:55.069726043Z"
+    dependencies:
+    - condition: eck-elasticsearch.enabled
+      name: eck-elasticsearch
+      repository: https://helm.elastic.co
+      version: 0.1.1
+    - condition: eck-kibana.enabled
+      name: eck-kibana
+      repository: https://helm.elastic.co
+      version: 0.1.1
+    - condition: eck-agent.enabled
+      name: eck-agent
+      repository: https://helm.elastic.co
+      version: 0.1.0
+    - condition: eck-fleet-server.enabled
+      name: eck-fleet-server
+      repository: https://helm.elastic.co
+      version: 0.1.0
+    description: 'A Parent Helm chart for all Elastic stack resources managed by the
+      ECK Operator. Currently supported: * Elasticsearch * Kibana '
+    digest: 4af72f4c958ba6fc87393d8d514828bff8e6977637cc931df18a664a1a92d16c
+    kubeVersion: '>= 1.21.0-0'
+    name: eck-stack
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/eck-stack-0.1.0/eck-stack-0.1.0.tgz
+    version: 0.1.0
   microblog:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -110,4 +201,4 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/rollouts-0.1.0/rollouts-0.1.0.tgz
     version: 0.1.0
-generated: "2022-07-29T01:38:45.46728652Z"
+generated: "2022-11-07T06:39:55.383133114Z"
