@@ -99,15 +99,15 @@ main:
 
   affinity: {}
 
-  persistence:
-    enabled: false
-    storageClass: ""
-    accessMode: ReadWriteOnce
-    size: 8Gi
-    existingClaim: ""
-    hostPath: ""
-    annotations: {}
-    labels: {}
+  # persistence:
+  #   enabled: false
+  #   storageClass: ""
+  #   accessMode: ReadWriteOnce
+  #   size: 8Gi
+  #   existingClaim: ""
+  #   hostPath: ""
+  #   annotations: {}
+  #   labels: {}
 
   # Expose Prometheus metrics
   metrics:
@@ -306,8 +306,8 @@ elasticsearch:
       targetCPU: ""
       targetMemory: ""
     persistence:
-        enabled: true
-        storageClass: ""
+      enabled: true
+      storageClass: ""
   ## Elasticsearch coordinating-only node parameters
   ## @param elasticsearch.coordinating.replicas Desired number of Elasticsearch coordinating-only nodes
   ##

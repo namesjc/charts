@@ -7,7 +7,7 @@ metadata:
     {{- include "microblog.labels" . | nindent 4 }}
   {{- if .Values.main.persistence.annotations }}
   annotations:
-  {{ toYaml .Values.pmain.ersistence.annotations | indent 4 }}
+  {{ toYaml .Values.main.ersistence.annotations | indent 4 }}
   {{- end }}
 spec:
   {{- if .Values.main.persistence.hostPath }}
