@@ -1,5 +1,5 @@
 ---
-# Default values for eck-stack.
+# Default values for eck-stack. YAML
 # This is a YAML-formatted file.
 
 # If enabled, will use the eck-elasticsearch chart and deploy an Elasticsearch resource.
