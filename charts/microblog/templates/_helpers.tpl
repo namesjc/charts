@@ -138,8 +138,8 @@ Return the MariaDB Secret Name
 {{- define "microblog.databaseSecretName" -}}
 {{- if .Values.mariadb.enabled }}
     {{- printf "%s" (include "microblog.mariadb.fullname" .) -}}
-{{- else if .Values.externalDatabase.existingSecret -}}
-    {{- printf "%s" .Values.externalDatabase.existingSecret -}}
+{{- else if .Values.externalDatabase.passwrod -}}
+    {{- printf "%s" .Values.externalDatabase.password -}}
 {{- else -}}
     {{- printf "%s-%s" (include "microblog.fullname" .) "external" -}}
 {{- end -}}
@@ -196,8 +196,8 @@ Return the Redis Secret Name
 {{- define "microblog.redisSecretName" -}}
 {{- if .Values.redis.enabled }}
     {{- printf "%s" (include "microblog.redis.fullname" .) -}}
-{{- else if .Values.externalRedis.existingSecret -}}
-    {{- printf "%s" .Values.externalRedis.existingSecret -}}
+{{- else if .Values.externalRedis.password -}}
+    {{- printf "%s" .Values.externalRedis.password -}}
 {{- else -}}
     {{- printf "%s-%s" (include "microblog.fullname" .) "external" -}}
 {{- end -}}
@@ -237,5 +237,29 @@ Return the Elasticsearch Port
     {{- printf "9200" -}}
 {{- else -}}
     {{- printf "%d" (.Values.externalelasticsearch.port | int ) -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the Elasticsearch Secret Name
+*/}}
+{{- define "microblog.elasticsearchSecretName" -}}
+{{- if .Values.elasticsearch.enabled }}
+    {{- printf "%s" (include "microblog.elasticsearch.fullname" .) -}}
+{{- else if .Values.externalElasticsearch.password -}}
+    {{- printf "%s" .Values.externalElasticsearch.password -}}
+{{- else -}}
+    {{- printf "%s-%s" (include "microblog.fullname" .) "external" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the Elasticsearch Password Key
+*/}}
+{{- define "microblog.elasticsearchPasswordKey" -}}
+{{- if .Values.elasticsearch.enabled -}}
+    elasticsearch-password
+{{- else -}}
+    elasticsearch-password
 {{- end -}}
 {{- end -}}

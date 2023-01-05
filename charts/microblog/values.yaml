@@ -159,13 +159,11 @@ externalDatabase:
   database: ""
   user: ""
   password: ""
-  existingSecret: ""
 
 externalRedis:
   port: 6379
   host: ""
   password: ""
-  existingSecret: ""
 
 ## External elasticsearch configuration
 ##
@@ -173,9 +171,7 @@ externalElasticsearch:
   ## @param externalElasticsearch.host Host of the external elasticsearch server
   ##
   host: ""
-  ## @param externalElasticsearch.port Port of the external elasticsearch server
-  ##
-  port: 9200
+  password: ""
 
 mariadb:
   ## @param mariadb.enabled Whether to deploy a mariadb server to satisfy the applications database requirements
