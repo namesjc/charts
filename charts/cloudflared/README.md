@@ -1,4 +1,4 @@
-Chart for Cloudflare tunnel
+Chart for self Cloudflare tunnel
 
 # Cloudflare Tunnel
 
