@@ -17,3 +17,4 @@ registry:
     enable: false
     annotations: {}
     ingressClassName: "nginx"
+    tls: {}

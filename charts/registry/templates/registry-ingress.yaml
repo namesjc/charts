@@ -15,6 +15,16 @@ metadata:
   {{- end }}
 spec:
   ingressClassName: {{ .Values.registry.ingress.ingressClassName }}
+  {{- if .Values.registry.ingress.tls }}
+  tls:
+    {{- range .Values.registry.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
   rules:
   - host: {{ .Values.registry.name }}-{{ .Values.global.application_base_url }}
     http:
