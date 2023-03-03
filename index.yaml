@@ -190,6 +190,17 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/microblog-0.1.4/microblog-0.1.4.tgz
     version: 0.1.4
+  registry:
+  - apiVersion: v2
+    appVersion: 1.13.1
+    created: "2023-03-03T07:04:08.270184978Z"
+    description: A Helm chart for Kubernetes
+    digest: f85e2ce1fb5c5899dbce5cf6391d7d7534ae003c8672f93d835342ba0f34bcc3
+    name: registry
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/registry-1.13.1/registry-1.13.1.tgz
+    version: 1.13.1
   rollouts:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -201,4 +212,4 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/rollouts-0.1.0/rollouts-0.1.0.tgz
     version: 0.1.0
-generated: "2022-11-07T06:39:55.383133114Z"
+generated: "2023-03-03T07:04:08.270199279Z"
