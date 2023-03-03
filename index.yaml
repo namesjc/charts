@@ -192,6 +192,16 @@ entries:
     version: 0.1.4
   registry:
   - apiVersion: v2
+    appVersion: 1.13.3
+    created: "2023-03-03T10:22:57.20296956Z"
+    description: A Helm chart for Kubernetes
+    digest: 20750c23f4b7506e57b763e221c4400bcfcb9b49d9add00e7d57dffbe9280233
+    name: registry
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/registry-1.13.3/registry-1.13.3.tgz
+    version: 1.13.3
+  - apiVersion: v2
     appVersion: 1.13.2
     created: "2023-03-03T09:45:37.149305432Z"
     description: A Helm chart for Kubernetes
@@ -222,4 +232,4 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/rollouts-0.1.0/rollouts-0.1.0.tgz
     version: 0.1.0
-generated: "2023-03-03T09:45:37.149421933Z"
+generated: "2023-03-03T10:22:57.489401873Z"
