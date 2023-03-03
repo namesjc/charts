@@ -1,4 +1,4 @@
-Chart for argo-rollout
+Chart for Consul for testing JHipster
 
 ## Cheatsheet
 
@@ -12,4 +12,5 @@ helm upgrade
 ```bash
 > helm upgrade -n rollouts rollouts namesjc/rollouts --reuse-values --set image.tag=yellow
 ```
+
 
