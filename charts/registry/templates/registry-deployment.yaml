@@ -17,7 +17,7 @@ spec:
       - name: regcred
       containers:
         - name: consul-config-loader
-          image: jhipster-consul-config-loader:v0.4.1
+          image: jhipster/consul-config-loader:v0.4.1
           imagePullPolicy: IfNotPresent
           env:
             - name: INIT_SLEEP_SECONDS
