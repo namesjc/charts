@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.registry.name }}-ingress
+  namespace: {{ .Release.Namespace }}
+spec:
+  rules:
+  - host: {{ .Values.registry.name }}-{{ .Values.global.application_base_url }}
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Values.registry.name }}-service
+              port:
+                number: 8500

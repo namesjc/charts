@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.registry.name }}-deployment
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consul-config-loader
+  template:
+    metadata:
+      labels:
+        app: consul-config-loader
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+        - name: consul-config-loader
+          image: jhipster-consul-config-loader:v0.4.1
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: INIT_SLEEP_SECONDS
+              value: '5'
+            - name: CONSUL_URL
+              value: {{ .Values.registry.name }}-service.{{ .Release.Namespace }}.svc.cluster.local
+            - name: CONSUL_PORT
+              value: '8500'
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+            requests:
+              cpu: 1000m
+              memory: 1024Mi
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .Values.registry.name }}-configmap

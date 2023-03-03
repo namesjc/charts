@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.registry.name }}-configmap
+  namespace: {{ .Release.Namespace }}
+data:
+  application.yml: |-
+    configserver:
+      name: Consul
+      status: Connected to Consul running in Kubernetes
+    jhipster:
+      security:
+        authentication:
+          jwt:
+            base64-secret: YzdjNmI2ZDViYjQ0ZTU1OTYzNGI0YWVlYTk0MWRiMjBmYjJmYjAwNjZlMzI3NzlmZTQ0YWQ3Y2YyZjhiZTdmNGRiMmY3OGU4ODI2ZTdmNGNiYjNhNjY1OTM3NzJiMzI3MmNkOQ==
+    # Feign client timeout setup
+    feign:
+      hystrix:
+        enabled: true
+      client:
+        config:
+          default:
+            connectTimeout: 60000
+            readTimeout: 60000
+    # See https://github.com/Netflix/Hystrix/wiki/Configuration
+    hystrix:
+      command:
+        default:
+          execution:
+            isolation:
+              strategy: SEMAPHORE
+              # See https://github.com/spring-cloud/spring-cloud-netflix/issues/1330
+              thread:
+                timeoutInMilliseconds: 60000
+    spring:
+      cloud:
+        consul:
+          discovery:
+            health-check-critical-timeout: 3m

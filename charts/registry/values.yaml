@@ -1,0 +1,7 @@
+---
+
+global:
+  application_base_url: ""
+
+registry:
+  name: registry # changing this will cause not working config service
