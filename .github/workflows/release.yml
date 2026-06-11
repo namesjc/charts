@@ -11,6 +11,7 @@ jobs:
 
     permissions:
       contents: write
+      packages: write
 
     steps:
       - name: Checkout
@@ -22,7 +23,7 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          
+
       - name: Install Helm
         uses: azure/setup-helm@v1
         with:
@@ -33,5 +34,9 @@ jobs:
           helm repo add bitnami https://charts.bitnami.com/bitnami
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.7.0
+        with:
+          charts_dir: charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_GENERATE_RELEASE_NOTES: true
+          CR_SKIP_EXISTING: true
