@@ -1,0 +1,14 @@
+apiVersion: v2
+description: Gateway API CRDs for Kubernetes clusters
+home: https://gateway-api.sigs.k8s.io/
+keywords:
+- gateway-api
+- crds
+- networking
+kubeVersion: '>=1.25.0-0'
+name: gateway-api-crds
+sources:
+- https://github.com/kubernetes-sigs/gateway-api
+type: application
+version: 1.4.1
+appVersion: "v1.4.1"

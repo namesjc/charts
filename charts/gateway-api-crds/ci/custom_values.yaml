@@ -1,0 +1,3 @@
+enabled: true
+gatewayAPI: true
+deleteOnUninstall: false

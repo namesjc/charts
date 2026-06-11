@@ -1,0 +1,29 @@
+{
+	"$schema": "https://json-schema.org/draft-07/schema#",
+	"title": "gateway-api-crds Helm values",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"global": {
+			"type": "object",
+			"description": "Global values placeholder for compatibility.",
+			"additionalProperties": true,
+			"default": {}
+		},
+		"enabled": {
+			"type": "boolean",
+			"description": "Field usable as a chart dependency condition.",
+			"default": true
+		},
+		"gatewayAPI": {
+			"type": "boolean",
+			"description": "Set to true to install Gateway API CRDs.",
+			"default": false
+		},
+		"deleteOnUninstall": {
+			"type": "boolean",
+			"description": "When false, CRDs are kept on uninstall via helm.sh/resource-policy=keep.",
+			"default": false
+		}
+	}
+}

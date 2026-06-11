@@ -1,0 +1,53 @@
+suite: gateway api crds rendering
+templates:
+  - templates/crds.yaml
+tests:
+  - it: should render no CRDs by default
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render no CRDs when chart is disabled
+    set:
+      enabled: false
+      gatewayAPI: true
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render six Gateway API CRDs when enabled
+    set:
+      gatewayAPI: true
+    asserts:
+      - hasDocuments:
+          count: 6
+      - isKind:
+          of: CustomResourceDefinition
+          documentIndex: 0
+      - equal:
+          path: metadata.annotations["app.kubernetes.io/managed-by"]
+          value: Helm
+          documentIndex: 0
+      - equal:
+          path: metadata.labels["app.kubernetes.io/managed-by"]
+          value: Helm
+          documentIndex: 0
+
+  - it: should keep CRDs on uninstall by default
+    set:
+      gatewayAPI: true
+      deleteOnUninstall: false
+    asserts:
+      - equal:
+          path: metadata.annotations["helm.sh/resource-policy"]
+          value: keep
+          documentIndex: 0
+
+  - it: should omit keep policy when deleteOnUninstall is true
+    set:
+      gatewayAPI: true
+      deleteOnUninstall: true
+    asserts:
+      - notExists:
+          path: metadata.annotations["helm.sh/resource-policy"]
+          documentIndex: 0
