@@ -13,6 +13,24 @@ entries:
     version: 0.1.0
   gateway-api-crds:
   - apiVersion: v2
+    appVersion: v1.5.0
+    created: "2026-06-11T16:38:39.35660145Z"
+    description: Gateway API CRDs for Kubernetes clusters
+    digest: 16cbb1cdf718f844a73ec5f9d49c1db45afd2ec2635d7ddbb918d94ac1cb4de2
+    home: https://gateway-api.sigs.k8s.io/
+    keywords:
+    - gateway-api
+    - crds
+    - networking
+    kubeVersion: '>=1.25.0-0'
+    name: gateway-api-crds
+    sources:
+    - https://github.com/kubernetes-sigs/gateway-api
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/gateway-api-crds-1.5.0/gateway-api-crds-1.5.0.tgz
+    version: 1.5.0
+  - apiVersion: v2
     appVersion: v1.4.1
     created: "2026-06-11T16:32:44.11126081Z"
     description: Gateway API CRDs for Kubernetes clusters
@@ -160,4 +178,4 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/rollouts-0.1.0/rollouts-0.1.0.tgz
     version: 0.1.0
-generated: "2026-06-11T16:32:44.11128105Z"
+generated: "2026-06-11T16:38:39.356626948Z"
