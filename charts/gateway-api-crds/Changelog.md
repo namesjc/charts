@@ -2,6 +2,13 @@
 
 All notable changes to this chart are documented in this file.
 
+## 1.5.1 - 2026-06-12
+
+### Changed
+
+- Bumped chart version to `1.5.1`.
+- Updated Gateway API CRD package to `v1.5.1`.
+
 ## 1.5.0 - 2026-06-12
 
 ### Changed
