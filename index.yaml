@@ -102,6 +102,25 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/eck-stack-0.1.0/eck-stack-0.1.0.tgz
     version: 0.1.0
+  gateway-api-crds:
+  - apiVersion: v2
+    appVersion: v1.5.1
+    created: "2026-06-11T14:45:35.67429004Z"
+    description: Gateway API CRDs for Kubernetes clusters
+    digest: 3f401fc66b5f0fd2b944875e3d778a470d8f1489820945f6b70fa496113c08ed
+    home: https://gateway-api.sigs.k8s.io/
+    keywords:
+    - gateway-api
+    - crds
+    - networking
+    kubeVersion: '>=1.25.0-0'
+    name: gateway-api-crds
+    sources:
+    - https://github.com/kubernetes-sigs/gateway-api
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/gateway-api-crds-1.5.1/gateway-api-crds-1.5.1.tgz
+    version: 1.5.1
   microblog:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -232,4 +251,4 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/rollouts-0.1.0/rollouts-0.1.0.tgz
     version: 0.1.0
-generated: "2023-03-03T10:22:57.489401873Z"
+generated: "2026-06-11T14:45:35.674312563Z"
