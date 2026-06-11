@@ -11,25 +11,6 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/cloudflared-0.1.0/cloudflared-0.1.0.tgz
     version: 0.1.0
-  gateway-api-crds:
-  - apiVersion: v2
-    appVersion: v1.5.1
-    created: "2026-06-11T16:28:16.171334239Z"
-    description: Gateway API CRDs for Kubernetes clusters
-    digest: 2049138959cc6b4f3596b7f681f80430daf0dfc9c78e1d8582658f951b57184d
-    home: https://gateway-api.sigs.k8s.io/
-    keywords:
-    - gateway-api
-    - crds
-    - networking
-    kubeVersion: '>=1.25.0-0'
-    name: gateway-api-crds
-    sources:
-    - https://github.com/kubernetes-sigs/gateway-api
-    type: application
-    urls:
-    - https://github.com/namesjc/charts/releases/download/gateway-api-crds-1.5.1/gateway-api-crds-1.5.1.tgz
-    version: 1.5.1
   microblog:
   - apiVersion: v2
     appVersion: 1.0.0
