@@ -1,0 +1,73 @@
+Thank you for installing the Docker Getting Started App! 🎉
+
+**Release:** {{ .Release.Name }}
+**Namespace:** {{ .Release.Namespace }}
+
+{{- if .Values.mysql.enabled }}
+================================================================================
+  MySQL Database
+================================================================================
+
+  Host: {{ include "getting-started-app.mysql.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  Port: 3306
+  Database: {{ .Values.mysql.auth.database }}
+  User: {{ .Values.mysql.auth.username }}
+
+  Credentials: kubectl get secret {{ include "getting-started-app.mysql.secretName" . }} -n {{ .Release.Namespace }}
+
+  {{- if .Values.mysql.persistence.enabled }}
+  Persistent storage enabled ({{ .Values.mysql.persistence.size }}).
+  {{- else }}
+  ⚠️  Persistence is DISABLED — data is ephemeral.
+  {{- end }}
+{{- else }}
+================================================================================
+  External MySQL Database
+================================================================================
+
+  Host: {{ .Values.externalDatabase.host }}
+  Port: {{ .Values.externalDatabase.port }}
+  Database: {{ .Values.externalDatabase.database }}
+  User: {{ .Values.externalDatabase.user }}
+{{- end }}
+
+================================================================================
+  Application
+================================================================================
+
+  To access the app:
+
+{{- if .Values.gateway.enabled }}
+  Gateway API HTTPRoute configured.
+    kubectl get httproute {{ include "getting-started-app.fullname" . }} -n {{ .Release.Namespace }}
+{{- else if .Values.ingress.enabled }}
+  Via Ingress:
+  {{- range .Values.ingress.hosts }}
+    http://{{ .host }}
+  {{- end }}
+{{- else }}
+  Port-forward to localhost:
+    kubectl port-forward svc/{{ include "getting-started-app.fullname" . }} {{ .Values.service.port }}:{{ .Values.service.port }} -n {{ .Release.Namespace }}
+  Then open: http://localhost:{{ .Values.service.port }}
+{{- end }}
+
+================================================================================
+  Useful Commands
+================================================================================
+
+  Pod status:
+    kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}
+
+  App logs:
+    kubectl logs -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }},app.kubernetes.io/component=app
+
+  {{- if .Values.mysql.enabled }}
+  MySQL shell:
+    kubectl exec -it {{ include "getting-started-app.mysql.fullname" . }}-0 -n {{ .Release.Namespace }} -- mysql -u {{ .Values.mysql.auth.username }} -p
+  {{- end }}
+
+  Uninstall:
+    helm uninstall {{ .Release.Name }} -n {{ .Release.Namespace }}
+  {{- if and .Values.mysql.enabled .Values.mysql.persistence.enabled }}
+  Note: MySQL PVCs are not deleted by helm uninstall. Remove them manually if no longer needed.
+  {{- end }}

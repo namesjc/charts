@@ -1,0 +1,23 @@
+apiVersion: v2
+name: getting-started-app
+description: A Helm chart for the Docker Getting Started todo list application with MySQL
+type: application
+
+# Chart version
+version: 0.1.0
+
+# Version of the application being deployed
+appVersion: "0.1.0"
+
+# Keywords for chart categorization
+keywords:
+  - docker
+  - getting-started
+  - todo
+  - mysql
+  - nodejs
+
+# Maintainer info
+maintainers:
+  - name: echo
+    email: ""

@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "getting-started-app.fullname" . }}
+  labels:
+    {{- include "getting-started-app.labels" . | nindent 4 }}
+    app.kubernetes.io/component: app
+  {{- with .Values.commonAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      {{- include "getting-started-app.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: app
+  template:
+    metadata:
+      labels:
+        {{- include "getting-started-app.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: app
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- $pullSecrets := include "getting-started-app.imagePullSecrets" . }}
+      {{- if $pullSecrets }}
+      imagePullSecrets:
+        {{- $pullSecrets | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if and .Values.mysql.enabled .Values.initContainer.enabled }}
+      initContainers:
+        - name: wait-for-mysql
+          image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
+          imagePullPolicy: {{ .Values.initContainer.image.pullPolicy }}
+          command:
+            - sh
+            - -c
+            - |
+              apk add --no-cache netcat-openbsd
+              echo "Waiting for MySQL..."
+              until nc -z {{ include "getting-started-app.databaseHost" . }} {{ include "getting-started-app.databasePort" . }}; do
+                echo "MySQL not ready yet, retrying in 2s..."
+                sleep 2
+              done
+              echo "MySQL is ready!"
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "getting-started-app.image" . | quote }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            - name: MYSQL_HOST
+              value: {{ include "getting-started-app.databaseHost" . | quote }}
+            - name: MYSQL_USER
+              value: {{ include "getting-started-app.databaseUser" . | quote }}
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "getting-started-app.mysql.secretName" . }}
+                  key: {{ include "getting-started-app.mysql.secretPasswordKey" . | quote }}
+            - name: MYSQL_DB
+              value: {{ include "getting-started-app.databaseName" . | quote }}
+          {{- if .Values.healthcheck.enabled }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: {{ .Values.healthcheck.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.healthcheck.livenessProbe.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: {{ .Values.healthcheck.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.healthcheck.readinessProbe.periodSeconds }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

@@ -1,0 +1,169 @@
+# Default values for getting-started-app.
+# This is a YAML-formatted file.
+
+# Overrides for generated resource names
+# See templates/_helpers.tpl
+# nameOverride:
+# fullnameOverride:
+
+## Global configuration
+global:
+  registry: ""
+  imagePullSecrets: []
+
+fullnameOverride: ""
+
+nameOverride: ""
+
+replicaCount: 1
+
+image:
+  registry: docker/getting-started
+  repository: ""
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+podAnnotations: {}
+
+## Pod-level security context (applied to all app containers in the pod)
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+podSecurityContext: {}
+  # fsGroup: 2000
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+## Container-level security context (app container)
+securityContext: {}
+  # allowPrivilegeEscalation: false
+  # capabilities:
+  #   drop:
+  #     - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+healthcheck:
+  enabled: true
+  livenessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 10
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+## Gateway API HTTPRoute (requires Gateway API CRDs)
+## ref: https://gateway-api.sigs.k8s.io/
+gateway:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: ""
+      namespace: ""
+      sectionName: ""
+  hostnames:
+    - "example.com"
+  path:
+    type: PathPrefix
+    value: /
+
+resources: {}
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+## Init container that waits for MySQL to be ready before starting the app
+initContainer:
+  enabled: true
+  image:
+    repository: alpine
+    tag: "3"
+    pullPolicy: IfNotPresent
+
+## MySQL configuration
+mysql:
+  enabled: true
+
+  image:
+    repository: mysql
+    tag: "8.0"
+    pullPolicy: IfNotPresent
+
+  auth:
+    rootPassword: ""
+    database: todos
+    username: todo
+    password: ""
+    ## Set to the name of an existing secret to skip secret creation.
+    ## When set, rootPassword and password above are ignored — the
+    ## referenced secret must provide the required keys.
+    existingSecret: ""
+    ## Override the secret key names used in the existing secret.
+    existingSecretPasswordKey: ""
+    existingSecretRootPasswordKey: ""
+
+  persistence:
+    enabled: true
+    storageClass: ""
+    size: 8Gi
+
+  resources: {}
+
+  ## MySQL-specific image pull secrets (for private registries)
+  imagePullSecrets: []
+  ## MySQL node selector
+  nodeSelector: {}
+  ## MySQL tolerations
+  tolerations: []
+  ## MySQL affinity
+  affinity: {}
+
+  ## MySQL pod-level security context
+  podSecurityContext: {}
+    # fsGroup: 999
+    # runAsUser: 999
+    # runAsGroup: 999
+
+  ## MySQL container-level security context
+  securityContext: {}
+    # allowPrivilegeEscalation: false
+    # capabilities:
+    #   drop:
+    #     - ALL
+    # runAsNonRoot: true
+    # runAsUser: 999
+
+## External MySQL (used when mysql.enabled is false)
+externalDatabase:
+  host: ""
+  port: 3306
+  database: todos
+  user: todo
+  password: ""
+  existingSecret: ""
+  existingSecretPasswordKey: ""
+
+commonAnnotations: {}
+commonLabels: {}

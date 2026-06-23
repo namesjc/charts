@@ -1,0 +1,128 @@
+{{- if .Values.mysql.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "getting-started-app.mysql.fullname" . }}
+  labels:
+    {{- include "getting-started-app.labels" . | nindent 4 }}
+    app.kubernetes.io/component: mysql
+  {{- with .Values.commonAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  serviceName: {{ include "getting-started-app.mysql.fullname" . }}
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "getting-started-app.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: mysql
+  template:
+    metadata:
+      labels:
+        {{- include "getting-started-app.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: mysql
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with .Values.mysql.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.mysql.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.mysql.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.mysql.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.mysql.podSecurityContext | nindent 8 }}
+      containers:
+        - name: mysql
+          securityContext:
+            {{- toYaml .Values.mysql.securityContext | nindent 12 }}
+          image: "{{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}"
+          imagePullPolicy: {{ .Values.mysql.image.pullPolicy }}
+          ports:
+            - name: mysql
+              containerPort: 3306
+              protocol: TCP
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "getting-started-app.mysql.secretName" . }}
+                  key: {{ include "getting-started-app.mysql.secretRootPasswordKey" . | quote }}
+            - name: MYSQL_DATABASE
+              value: {{ .Values.mysql.auth.database | quote }}
+            - name: MYSQL_USER
+              value: {{ .Values.mysql.auth.username | quote }}
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "getting-started-app.mysql.secretName" . }}
+                  key: {{ include "getting-started-app.mysql.secretPasswordKey" . | quote }}
+          {{- with .Values.mysql.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+          livenessProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - -u
+                - root
+                - -p$(MYSQL_ROOT_PASSWORD)
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - -u
+                - root
+                - -p$(MYSQL_ROOT_PASSWORD)
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+      {{- if not .Values.mysql.persistence.enabled }}
+      volumes:
+        - name: data
+          emptyDir: {}
+      {{- end }}
+  {{- if .Values.mysql.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels:
+          {{- include "getting-started-app.labels" . | nindent 10 }}
+          app.kubernetes.io/component: mysql
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        {{- if .Values.mysql.persistence.storageClass }}
+        {{- if eq "-" .Values.mysql.persistence.storageClass }}
+        storageClassName: ""
+        {{- else }}
+        storageClassName: {{ .Values.mysql.persistence.storageClass | quote }}
+        {{- end }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.mysql.persistence.size | quote }}
+  {{- end }}
+{{- end }}

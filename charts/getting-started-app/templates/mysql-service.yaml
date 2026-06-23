@@ -1,0 +1,23 @@
+{{- if .Values.mysql.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "getting-started-app.mysql.fullname" . }}
+  labels:
+    {{- include "getting-started-app.labels" . | nindent 4 }}
+    app.kubernetes.io/component: mysql
+  {{- with .Values.commonAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+      targetPort: mysql
+      protocol: TCP
+      name: mysql
+  selector:
+    {{- include "getting-started-app.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: mysql
+{{- end }}
