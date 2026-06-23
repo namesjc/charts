@@ -66,6 +66,26 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/gateway-api-crds-1.4.1/gateway-api-crds-1.4.1.tgz
     version: 1.4.1
+  getting-started-app:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2026-06-23T20:53:16.646985664Z"
+    description: A Helm chart for the Docker Getting Started todo list application
+      with MySQL
+    digest: 15ea0a340b97e9a878cda0f5355e938b7e2e970606db985ad8b768084e868f89
+    keywords:
+    - docker
+    - getting-started
+    - todo
+    - mysql
+    - nodejs
+    maintainers:
+    - name: echo
+    name: getting-started-app
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/getting-started-app-0.1.0/getting-started-app-0.1.0.tgz
+    version: 0.1.0
   microblog:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -196,4 +216,4 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/rollouts-0.1.0/rollouts-0.1.0.tgz
     version: 0.1.0
-generated: "2026-06-11T16:44:50.927891482Z"
+generated: "2026-06-23T20:53:16.647008537Z"
