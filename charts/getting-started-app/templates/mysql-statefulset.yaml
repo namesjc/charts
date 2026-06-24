@@ -49,7 +49,7 @@ spec:
         - name: mysql
           securityContext:
             {{- toYaml .Values.mysql.securityContext | nindent 12 }}
-          image: "{{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}"
+          image: {{ include "getting-started-app.mysql.image" . | quote }}
           imagePullPolicy: {{ .Values.mysql.image.pullPolicy }}
           ports:
             - name: mysql

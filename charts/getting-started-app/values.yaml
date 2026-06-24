@@ -8,7 +8,7 @@
 
 ## Global configuration
 global:
-  registry: ""
+  repository: ""
   imagePullSecrets: []
 
 fullnameOverride: ""
@@ -18,8 +18,7 @@ nameOverride: ""
 replicaCount: 1
 
 image:
-  registry: docker/getting-started
-  repository: ""
+  repository: "docker/getting-started"
   tag: ""
   digest: ""
   pullPolicy: IfNotPresent

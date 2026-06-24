@@ -52,26 +52,32 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-App image
+App image — follows the external-secrets pattern.
+global.repository replaces image.repository entirely when set.
+Tag defaults to Chart.Version. Digest overrides tag.
 */}}
 {{- define "getting-started-app.image" -}}
-{{- $registry := .Values.image.registry -}}
-{{- if .Values.global.registry -}}
-{{- $registry = .Values.global.registry -}}
-{{- end -}}
-{{- if .Values.image.repository -}}
-{{- printf "%s/%s" $registry .Values.image.repository -}}
-{{- else -}}
-{{- printf "%s" $registry -}}
-{{- end -}}
-{{- if .Values.image.tag -}}
-{{- printf ":%s" .Values.image.tag -}}
-{{- else if not .Values.image.digest -}}
-{{- printf ":latest" -}}
+{{- $repo := .Values.image.repository -}}
+{{- if .Values.global.repository -}}
+{{- $repo = .Values.global.repository -}}
 {{- end -}}
 {{- if .Values.image.digest -}}
-{{- printf "@%s" .Values.image.digest -}}
+{{- printf "%s@%s" $repo .Values.image.digest -}}
+{{- else -}}
+{{- printf "%s:%s" $repo (.Values.image.tag | default .Chart.Version) -}}
 {{- end -}}
+{{- end -}}
+
+{{/*
+MySQL image — same pattern as app image. global.repository replaces
+mysql.image.repository entirely when set. Tag defaults to "8.0".
+*/}}
+{{- define "getting-started-app.mysql.image" -}}
+{{- $repo := .Values.mysql.image.repository -}}
+{{- if .Values.global.repository -}}
+{{- $repo = .Values.global.repository -}}
+{{- end -}}
+{{- printf "%s:%s" $repo (.Values.mysql.image.tag | default "8.0") -}}
 {{- end -}}
 
 {{/*
