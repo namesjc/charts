@@ -69,6 +69,25 @@ entries:
   getting-started-app:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2026-06-24T02:10:42.418678849Z"
+    description: A Helm chart for the Docker Getting Started todo list application
+      with MySQL
+    digest: 53d020c6d0e33de4c149a7113231037c2a431afae8ac49cad1791f8bfcc728bc
+    keywords:
+    - docker
+    - getting-started
+    - todo
+    - mysql
+    - nodejs
+    maintainers:
+    - name: echo
+    name: getting-started-app
+    type: application
+    urls:
+    - https://github.com/namesjc/charts/releases/download/getting-started-app-0.1.1/getting-started-app-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2026-06-23T20:53:16.646985664Z"
     description: A Helm chart for the Docker Getting Started todo list application
       with MySQL
@@ -216,4 +235,4 @@ entries:
     urls:
     - https://github.com/namesjc/charts/releases/download/rollouts-0.1.0/rollouts-0.1.0.tgz
     version: 0.1.0
-generated: "2026-06-23T20:53:16.647008537Z"
+generated: "2026-06-24T02:10:42.41871218Z"
